@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html>
-  <button type="button"> <a href="?run=true">Refresh Sentiment</a></button>
-  
   <head>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+    <button type="button"> <a href="#" onclick="ajaxcall()">Sentiment</a></button>
+        
+    <script type="text/javascript">
+        function ajaxcall(){
+            $.ajax({
+               method:'get',
+               url: "runButton.php"
+        })
+       }
+    </script>
 
     <script type="text/javascript">
       // Load the Visualization API and the corechart package.
