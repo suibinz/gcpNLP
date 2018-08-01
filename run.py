@@ -18,7 +18,7 @@ def template_score():
 
 @app.route("/runButton.php")
 def refresh_score():
-    getSentiment.write_score()
+    getSentiment.runSentiment()
     with open("result/scores.json") as f:
         scoreJSON = json.load(f)
     print(scoreJSON)

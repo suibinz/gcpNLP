@@ -4,14 +4,16 @@
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-    <a href="#" onclick="ajaxcall()">Sentiment</a>
+    <button type="submit" onclick="ajaxcall()">Get Sentiment</button>
         
     <script type="text/javascript">
         function ajaxcall(){
             $.ajax({
                method:'get',
                url: "runButton.php"
-        })
+              });
+            window.location.reload();
+        
        }
     </script>
 
@@ -40,7 +42,7 @@
         ]);
 
         // Set chart options
-        var options = {'title':'User Sentiment on Sony Game Controller',
+        var options = {'title':'User Sentiment on Devita Products',
                        'width':800,
                        'height':300,
                        'is3D':true};

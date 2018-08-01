@@ -72,6 +72,6 @@ def write_score():
         with open("./result/scores.json", "w") as  f:
             f.write(json.dumps(sentimentDict))
 
-if __name__ == "__main__":
+def runSentiment():
     get_comments_from_db()
     write_score()
