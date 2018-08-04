@@ -39,14 +39,14 @@
 
 </head>
 
-<body>
+<body onload="addText()">
   <div>
     <img src="./NegFeedback_Desktop HD.png" style="height: 4em;width: 100%;">
   </div>
   <div id="graphic" style="float: left;"></div>
 
   <div>
-    <img src="./icons/Group 14.png" style="margin-left: 19em; margin-top: 3em ">
+    <img id="img" src="./icons/contended.png" style="margin-left: 16em; margin-top: 3em ">
   </div>
   <br/>
   <br/>
@@ -54,8 +54,8 @@
     <h3 style="margin-left: 12px; margin-top: 5px; margin-right: 12px; margin-bottom: 6px;">How are my customers feeling now ?</h3>
   </div>
 
-  <div style="margin-left: 55em;">
-    <h2>Somewhat Neutral...</h2>
+  <div style="margin-left: 52em;">
+    <h2 id="msg">Somewhat Neutral...</h2>
   </div>
 
   <br/>
@@ -65,26 +65,57 @@
   <div style="margin-left: 3em;float: left;
     position: relative;">
     <img src="./icons/Combined Shape Copy.png">
-    <div class="centered">This is jst some random test jnfdkjadf kjahdf kjahdfdlkfjakdjfkf kjfd;kjadfj;f kjds;fjdsfi
-    </div>
+    <div id="first" class="centered">Okay</div>
     <h5 style="margin-left: 1em"> - Mike Bosh</h5>
   </div>
 
   <div style="margin-left: 4em;margin-right: 4em; float: left; position: relative;">
     <img src="./icons/Combined Shape.png">
-    <div class="centered">This is jst some random test jnfdkjadf kjahdf kjahdfdlkfjakdjfkf kjfd;kjadfj;f kjds;fjdsfi
+    <div id="second" class="centered">Not Satisfied
     </div>
     <h5 style="margin-left: 1em"> - Peter Josh</h5>
   </div>
 
   <div style="margin-left: 3em; float: left;position: relative">
     <img src="./icons/Combined Shape Copy 3.png">
-    <div class="centered">This is jst some random test jnfdkjadf kjahdf kjahdfdlkfjakdjfkf kjfd;kjadfj;f kjds;fjdsfi
+    <div id="third" class="centered">Satisfied
     </div>
     <h5 style="margin-left: 1em"> - Shelly Anna</h5>
   </div>
-
   <script>
+
+    // change string values for bottom boxes
+    var textBox1 = 'Happy'
+    var textBox2 = 'Very Satisfied'
+    var textBox3 = 'Dissatisfied'
+
+    function addText() {
+      document.getElementById('first').innerHTML = textBox1
+      document.getElementById('second').innerHTML = textBox2
+      document.getElementById('third').innerHTML = textBox3
+
+    }
+    // for setting up emoji icons & changing corresponding text
+    var value = 0;
+
+    switch (value) {
+      case 0:
+        document.getElementById('img').src = "./icons/contended.png"
+        document.getElementById('msg').innerHTML = 'Somewhat Neutral... '
+        break;
+      case 1:
+        document.getElementById('img').src = "./icons/dissatisfied.png"
+        break;
+      case -1:
+        document.getElementById('img').src = "./icons/dissatisfied.png"
+        document.getElementById('msg').innerHTML = 'Dissatisfied'
+        break;
+      default:
+        document.getElementById('img').src = "./icons/contended.png"
+        document.getElementById('msg').innerHTML = 'Somewhat Neutral... '
+    }
+
+
     var data = [
       {
         "name": "VERY SATISFIED",
