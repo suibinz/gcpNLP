@@ -2,7 +2,7 @@
 import os
 import json
 import getSentiment
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 app = Flask(__name__)
 
 @app.route("/scores")
@@ -26,6 +26,15 @@ def refresh_score():
         Highly_Neg = scoreJSON["Highly_Neg"], Moderately_Neg = scoreJSON["Moderately_Neg"], \
         Neutral = scoreJSON["Neutral"], \
         Moderately_Pos = scoreJSON["Moderately_Pos"], Highly_Pos = scoreJSON["Highly_Pos"])
+
+@app.route("/<path:filename>")
+def sendFileRoot(filename):
+	return send_from_directory("templates/", filename)
+
+@app.route("/icons/<path:filename>")
+def sendFileIcon(filename):
+	return send_from_directory("templates/icons/", filename)
+
 
 if __name__ == "__main__":
     print(os.getcwd())
