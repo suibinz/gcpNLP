@@ -96,7 +96,9 @@
 
     }
     // for setting up emoji icons & changing corresponding text
-    var value = 0;
+    // change the value 0,1,-1
+    // 0 - content, 1 - satisfied, -1 - dissatisfied
+    var value = 1;
 
     switch (value) {
       case 0:
@@ -104,11 +106,12 @@
         document.getElementById('msg').innerHTML = 'Somewhat Neutral... '
         break;
       case 1:
-        document.getElementById('img').src = "./icons/dissatisfied.png"
+        document.getElementById('img').src = "./icons/satisfied.png"
+        document.getElementById('msg').innerHTML = 'Satisfied...'
         break;
       case -1:
         document.getElementById('img').src = "./icons/dissatisfied.png"
-        document.getElementById('msg').innerHTML = 'Dissatisfied'
+        document.getElementById('msg').innerHTML = 'Dissatisfied...'
         break;
       default:
         document.getElementById('img').src = "./icons/contended.png"
