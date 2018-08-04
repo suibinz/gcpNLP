@@ -5,9 +5,17 @@
   <meta charset='utf-8' />
   <title>Simple Bar chart</title>
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
   <style>
+    .centered {
+      position: absolute;
+      top: 27%;
+      left: 36%;
+      transform: translate(-50%, -50%);
+    }
+
     body {
-      font-family: "Arial", sans-serif;
+      font-family: 'Asap', sans-serif;
     }
 
     .bar {
@@ -38,50 +46,78 @@
   <div id="graphic" style="float: left;"></div>
 
   <div>
-    <img src="./icons/Group 14.png" style="margin-left: 33em; margin-top: 3em ">
+    <img src="./icons/Group 14.png" style="margin-left: 19em; margin-top: 3em ">
   </div>
   <br/>
   <br/>
-  <div style="border: 2px solid black; float: left; margin-left: 5em">
-    <h3 style="margin-left: 12px; margin-top: 5px; margin-right: 12px; margin-bottom: 6px;">How are my customers feeling now</h3>
+  <div style="border: 2px solid black; float: left; margin-left: 3em">
+    <h3 style="margin-left: 12px; margin-top: 5px; margin-right: 12px; margin-bottom: 6px;">How are my customers feeling now ?</h3>
   </div>
 
-  <div style="margin-left: 68em">
+  <div style="margin-left: 55em;">
     <h2>Somewhat Neutral...</h2>
   </div>
 
+  <br/>
+  <br/>
+  <br/>
+
+  <div style="margin-left: 3em;float: left;
+    position: relative;">
+    <img src="./icons/Combined Shape Copy.png">
+    <div class="centered">This is jst some random test jnfdkjadf kjahdf kjahdfdlkfjakdjfkf kjfd;kjadfj;f kjds;fjdsfi
+    </div>
+    <h5 style="margin-left: 1em"> - Mike Bosh</h5>
+  </div>
+
+  <div style="margin-left: 4em;margin-right: 4em; float: left; position: relative;">
+    <img src="./icons/Combined Shape.png">
+    <div class="centered">This is jst some random test jnfdkjadf kjahdf kjahdfdlkfjakdjfkf kjfd;kjadfj;f kjds;fjdsfi
+    </div>
+    <h5 style="margin-left: 1em"> - Peter Josh</h5>
+  </div>
+
+  <div style="margin-left: 3em; float: left;position: relative">
+    <img src="./icons/Combined Shape Copy 3.png">
+    <div class="centered">This is jst some random test jnfdkjadf kjahdf kjahdfdlkfjakdjfkf kjfd;kjadfj;f kjds;fjdsfi
+    </div>
+    <h5 style="margin-left: 1em"> - Shelly Anna</h5>
+  </div>
 
   <script>
-    var data = [{
-      "name": "HIGHLY SATISFIED",
-      "value": 20,
-      "color": "#6EDAB7"
-    },
-    {
-      "name": "CONTENT",
-      "value": 12,
-      "color": "#B6DB43"
-    },
-    {
-      "name": "NEUTRAL",
-      "value": 19,
-      "color": "#EECB55"
-    },
-    {
-      "name": "MAYBE NOT?",
-      "value": 5,
-      "color": "#FAA35D"
-    },
-    {
-      "name": "VERY UNHAPPY",
-      "value": 16,
-      "color": "#DE6D53"
-    }];
+    var data = [
+      {
+        "name": "VERY SATISFIED",
+        "value": 16,
+        "color": "#DE6D53"
+      },
+      {
+        "name": "SOMEWHAT SATISFIED",
+        "value": 5,
+        "color": "#FAA35D"
+      },
+      {
+        "name": "NEUTRAL",
+        "value": 19,
+        "color": "#EECB55"
+      }, {
+        "name": "SOMEWHAT DISSATISFIED",
+        "value": 12,
+        "color": "#B6DB43"
+      },
+      {
+        "name": "HIGHLY DISSATISFIED",
+        "value": 20,
+        "color": "#6EDAB7"
+      },
+
+    ];
 
     //sort bars based on value
-    data = data.sort(function (a, b) {
-      return d3.ascending(a.value, b.value);
-    })
+    // data = data.sort(function (a, b) {
+    //   return d3
+    //   return d3.ascending(a.value, b.value);
+    // })
 
     //set up svg using margin conventions - we'll need plenty of room on the left for labels
     var margin = {
