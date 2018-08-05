@@ -60,98 +60,86 @@
   <br/>
   <br/>
   <div style="border: 2px solid black; float: left; margin-left: 3em">
-    <h3 style="margin-left: 12px; margin-top: 5px; margin-right: 12px; margin-bottom: 6px;">How are my customers feeling now ?</h3>
+    <h3 style="margin-left: 12px; margin-top: 5px; margin-right: 12px; margin-bottom: 6px;">How are customers feeling about our products</h3>
   </div>
 
   <div style="margin-left: 52em;">
-    <h2 id="msg">Somewhat Neutral...</h2>
+    <h2 id="msg">Overall Customer Satisfaction</h2>
   </div>
 
   <br/>
   <br/>
   <br/>
 
-  <div style="margin-left: 3em;float: left;
-    position: relative;">
-    <img src="./icons/Combined Shape Copy.png">
-    <div id="first" class="centered">Okay</div>
-    <h5 style="margin-left: 1em"> - Mike Bosh</h5>
+  <div style="margin-left: 3em;float: left; position: relative;">
+	<img src="./icons/Combined Shape Copy.png">
+    <div id="first" class="centered"> {{ sentJson.Hi_sent}}</div>
   </div>
 
   <div style="margin-left: 4em;margin-right: 4em; float: left; position: relative;">
-    <img src="./icons/Combined Shape.png">
-    <div id="second" class="centered">Not Satisfied
-    </div>
-    <h5 style="margin-left: 1em"> - Peter Josh</h5>
+	<img src="./icons/Combined Shape.png">
+    <div id="second" class="centered"> {{sentJson.OK_sent}} </div>
   </div>
 
   <div style="margin-left: 3em; float: left;position: relative">
-    <img src="./icons/Combined Shape Copy 3.png">
-    <div id="third" class="centered">Satisfied
-    </div>
-    <h5 style="margin-left: 1em"> - Shelly Anna</h5>
-  </div>
+	<img src="./icons/Combined Shape Copy 3.png">
+    <div id="third" class="centered"> {{sentJson.Poor_sent}} </div>
   <script>
 
     // change string values for bottom boxes
-    var textBox1 = 'Happy'
-    var textBox2 = 'Very Satisfied'
-    var textBox3 = 'Dissatisfied'
 
     function addText() {
-      document.getElementById('first').innerHTML = textBox1
-      document.getElementById('second').innerHTML = textBox2
-      document.getElementById('third').innerHTML = textBox3
-
+      //document.getElementById('first').innerHTML = 'good'
+      //document.getElementById('second').innerHTML = 'OK'
+      //document.getElementById('third').innerHTML = 'bad'
     }
     // for setting up emoji icons & changing corresponding text
     // change the value 0,1,-1
     // 0 - content, 1 - satisfied, -1 - dissatisfied
-    var value = -1;
-
-    switch (value) {
-      case 0:
-        document.getElementById('img').src = "./icons/contended.png"
-        document.getElementById('msg').innerHTML = 'Somewhat Neutral... '
+    var value = 0.6
+    switch (true) {
+      case ( value <= 0.6 && value >= -0.6 ):
+        document.getElementById('img').src = "./icons/okicon.png"
+        document.getElementById('msg').innerHTML = 'Customer Satisfaction Level: OK'
         break;
-      case 1:
-        document.getElementById('img').src = "./icons/satisfied.png"
-        document.getElementById('msg').innerHTML = 'Satisfied...'
+      case ( value > 0.6 ):
+        document.getElementById('img').src = "./icons/sunnyicon.png"
+        document.getElementById('msg').innerHTML = 'Customer Satisfaction Level: Good'
         break;
-      case -1:
-        document.getElementById('img').src = "./icons/dissatisfied.png"
-        document.getElementById('msg').innerHTML = 'Dissatisfied...'
+      case ( value < -0.6 ):
+        document.getElementById('img').src = "./icons/rainyicon.png"
+        document.getElementById('msg').innerHTML = 'Cusomer Satisfaction Level: Poor'
         break;
       default:
-        document.getElementById('img').src = "./icons/contended.png"
-        document.getElementById('msg').innerHTML = 'Somewhat Neutral... '
+        document.getElementById('img').src = "./icons/okicon.png"
+        document.getElementById('msg').innerHTML = 'Customer Satisfaction Level: OK'
     }
 
 
     var data = [
       {
-        "name": "VERY SATISFIED",
-        "value": 16,
-        "color": "#DE6D53"
+        "name": "VERY DISSATISFIED",
+        "value": {{sentJson.Highly_Neg}},
+        "color": "#34495E"
       },
       {
-        "name": "SOMEWHAT SATISFIED",
-        "value": 5,
-        "color": "#FEFBD1"
+        "name": "SOMEWHAT DISSATISFIED",
+        "value": {{sentJson.Moderately_Neg}},
+        "color": "#839192"
       },
       {
         "name": "NEUTRAL",
-        "value": 19,
-        "color": "#EECB55"
+        "value": {{sentJson.Neutral}},
+        "color": "#F9E79F"
       }, {
-        "name": "SOMEWHAT DISSATISFIED",
-        "value": 12,
-        "color": "#FFE6DC"
+        "name": "SOMEWHAT SATISFIED",
+        "value": {{sentJson.Moderately_Pos}},
+        "color": "#D4AC0D"
       },
       {
-        "name": "HIGHLY DISSATISFIED",
-        "value": 20,
-        "color": "#6EDAB7"
+        "name": "HIGHLY SATISFIED",
+        "value": {{sentJson.Highly_Pos}},
+        "color": "#229954"
       },
 
     ];

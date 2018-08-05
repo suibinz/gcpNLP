@@ -39,17 +39,20 @@ def get_sent_score(comment, sentimentDict):
 		document = language.types.Document( content = comment, type = "PLAIN_TEXT")
 		response = client.analyze_sentiment( document = document, encoding_type = "UTF32")
 		sent_score = response.document_sentiment.score
-        
+	
 		if sent_score <= -0.6:
 			sentimentDict["Highly_Neg"] += 1
+			sentimentDict["Poor_sent"] = comment
 		elif sent_score <= -0.2 and sent_score > -0.6:
 			sentimentDict["Moderately_Neg"] += 1
 		elif sent_score <= 0.2 and sent_score > -0.2:
 			sentimentDict["Neutral"] += 1
+			sentimentDict["OK_sent"] = comment
 		elif sent_score <= 0.6 and sent_score > 0.2:
 			sentimentDict["Moderately_Pos"] += 1
 		else: 
 			sentimentDict["Highly_Pos"] += 1
+			sentimentDict["Hi_sent"] = comment
 	except:
 		print("Language is not supported")
 
@@ -59,7 +62,10 @@ def write_score():
                 "Moderately_Neg": 0,
                 "Neutral": 0,
                 "Moderately_Pos": 0,
-                "Highly_Pos": 0
+                "Highly_Pos": 0,
+				"Poor_sent": '',
+				"OK_sent": '',
+				"Hi_sent": ''
         })
     comments = []
 
