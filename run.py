@@ -10,12 +10,12 @@ def template_score():
     getSentiment.write_score()
     with open("result/scores.json") as f:
         scoreJSON = json.load(f)
-    print(scoreJSON)
-    return render_template("sentimentGoogleChart.html", 
-        Highly_Neg = scoreJSON["Highly_Neg"], Moderately_Neg = scoreJSON["Moderately_Neg"], \
-        Neutral = scoreJSON["Neutral"], \
-        Moderately_Pos = scoreJSON["Moderately_Pos"], Highly_Pos = scoreJSON["Highly_Pos"])
-
+    scoreJSON['OA_sent'] = (-1.0*scoreJSON["Highly_Neg"] + -0.5*scoreJSON["Moderately_Neg"] + 0.5*scoreJSON["Moderately_Pos"] +\
+			1.0*scoreJSON["Highly_Pos"]) / (scoreJSON["Highly_Pos"] + scoreJSON["Moderately_Pos"] + \
+			scoreJSON["Neutral"] + scoreJSON["Moderately_Neg"] + scoreJSON["Highly_Neg"])
+    print(scoreJSON)    
+    return render_template("sentimentGoogleChart.html",  sentJson = scoreJSON)
+'''
 @app.route("/runButton.php")
 def refresh_score():
     getSentiment.runSentiment()
@@ -26,6 +26,7 @@ def refresh_score():
         Highly_Neg = scoreJSON["Highly_Neg"], Moderately_Neg = scoreJSON["Moderately_Neg"], \
         Neutral = scoreJSON["Neutral"], \
         Moderately_Pos = scoreJSON["Moderately_Pos"], Highly_Pos = scoreJSON["Highly_Pos"])
+'''
 
 @app.route("/<path:filename>")
 def sendFileRoot(filename):
@@ -37,5 +38,4 @@ def sendFileIcon(filename):
 
 
 if __name__ == "__main__":
-    print(os.getcwd())
     app.run(host='0.0.0.0', debug=True)
