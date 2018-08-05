@@ -14,7 +14,16 @@
       transform: translate(-50%, -50%);
     }
 
+    .header-centered {
+      position: absolute;
+      top: 2em;
+      left: 10em;
+      transform: translate(-50%, -50%);
+    }
+
     body {
+      margin: 0;
+      padding: 0;
       font-family: 'Asap', sans-serif;
     }
 
@@ -40,8 +49,8 @@
 </head>
 
 <body onload="addText()">
-  <div>
-    <img src="./NegFeedback_Desktop HD.png" style="height: 4em;width: 100%;">
+  <div style="width: 100%; height: 4em; background-color: #487fc0; position: relative;">
+    <img class="header-centered" src="./akme dummy logo white.png" />
   </div>
   <div id="graphic" style="float: left;"></div>
 
@@ -98,7 +107,7 @@
     // for setting up emoji icons & changing corresponding text
     // change the value 0,1,-1
     // 0 - content, 1 - satisfied, -1 - dissatisfied
-    var value = 1;
+    var value = -1;
 
     switch (value) {
       case 0:
@@ -128,7 +137,7 @@
       {
         "name": "SOMEWHAT SATISFIED",
         "value": 5,
-        "color": "#FAA35D"
+        "color": "#FEFBD1"
       },
       {
         "name": "NEUTRAL",
@@ -137,7 +146,7 @@
       }, {
         "name": "SOMEWHAT DISSATISFIED",
         "value": 12,
-        "color": "#B6DB43"
+        "color": "#FFE6DC"
       },
       {
         "name": "HIGHLY DISSATISFIED",
