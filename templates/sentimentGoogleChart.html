@@ -62,7 +62,7 @@
   <br/>
   <br/>
   <div style="border: 2px solid black; float: left; margin-left: 3em">
-    <button class="btn -btn-default">How are customers feeling about our products</button>
+    <button id="button" class="btn -btn-default">How are customers feeling about our products</button>
   </div>
 
   <div style="margin-left: 52em;">
@@ -86,7 +86,22 @@
   <div style="margin-left: 3em; float: left;position: relative">
 	<img src="./icons/Combined Shape Copy 3.png">
     <div id="third" class="centered"> {{sentJson.Poor_sent}} </div>
-  <script>
+
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      // call runButton.php on click
+
+      $('#button').click(function () {
+        $.ajax({
+          type: "GET",
+          url: "../runButton.php",
+        }).done(function (msg) {
+          console.log('script executed')
+        });
+
+      });
+
+
 
     // change string values for bottom boxes
 
