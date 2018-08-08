@@ -29,8 +29,9 @@ def get_comments_from_db():
     with open(comment_filename, "w") as f:
         while True:
             comment = results.fetch_row()
+            print(comment)
             if any(comment):
-                f.write(str(comment[0][0]).split("'")[1] + "\n")
+                f.write(str(comment[0][0]) + "\n")
             else:
                 break
 
@@ -81,3 +82,6 @@ def write_score():
 def runSentiment():
     get_comments_from_db()
     write_score()
+
+if __name__ == '__main__':
+    runSentiment()
