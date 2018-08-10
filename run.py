@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/scores")
 def template_score():
-    getSentiment.write_score()
+    getSentiment.runSentiment()
     with open("result/scores.json") as f:
         scoreJSON = json.load(f)
     scoreJSON['OA_sent'] = (-1.0*scoreJSON["Highly_Neg"] + -0.5*scoreJSON["Moderately_Neg"] + 0.5*scoreJSON["Moderately_Pos"] +\
@@ -15,18 +15,14 @@ def template_score():
 			scoreJSON["Neutral"] + scoreJSON["Moderately_Neg"] + scoreJSON["Highly_Neg"])
     print(scoreJSON)    
     return render_template("sentimentGoogleChart.html",  sentJson = scoreJSON)
-'''
+
 @app.route("/runButton.php")
 def refresh_score():
     getSentiment.runSentiment()
     with open("result/scores.json") as f:
         scoreJSON = json.load(f)
     print(scoreJSON)
-    return render_template("sentimentGoogleChart.html",
-        Highly_Neg = scoreJSON["Highly_Neg"], Moderately_Neg = scoreJSON["Moderately_Neg"], \
-        Neutral = scoreJSON["Neutral"], \
-        Moderately_Pos = scoreJSON["Moderately_Pos"], Highly_Pos = scoreJSON["Highly_Pos"])
-'''
+    return render_template("sentimentGoogleChart.html",  sentJson = scoreJSON)
 
 @app.route("/<path:filename>")
 def sendFileRoot(filename):
