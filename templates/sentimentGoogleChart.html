@@ -74,17 +74,17 @@
   <br/>
 
   <div style="margin-left: 3em;float: left; position: relative;">
-	<img src="./icons/Combined Shape Copy.png">
+	<img src="./icons/positive.png">
     <div id="first" class="centered"> {{ sentJson.Hi_sent}}</div>
   </div>
 
   <div style="margin-left: 4em;margin-right: 4em; float: left; position: relative;">
-	<img src="./icons/Combined Shape.png">
+	<img src="./icons/neutral.png">
     <div id="second" class="centered"> {{sentJson.OK_sent}} </div>
   </div>
 
   <div style="margin-left: 3em; float: left;position: relative">
-	<img src="./icons/Combined Shape Copy 3.png">
+	<img src="./icons/negative.png">
     <div id="third" class="centered"> {{sentJson.Poor_sent}} </div>
 
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -138,26 +138,26 @@
       {
         "name": "VERY DISSATISFIED",
         "value": {{sentJson.Highly_Neg}},
-        "color": "#34495E"
+        "color": "#D2D3D7"
       },
       {
         "name": "SOMEWHAT DISSATISFIED",
         "value": {{sentJson.Moderately_Neg}},
-        "color": "#839192"
+        "color": "#AEAF90"
       },
       {
         "name": "NEUTRAL",
         "value": {{sentJson.Neutral}},
-        "color": "#F9E79F"
+        "color": "#FFEDB0"
       }, {
         "name": "SOMEWHAT SATISFIED",
         "value": {{sentJson.Moderately_Pos}},
-        "color": "#D4AC0D"
+        "color": "#CDF441"
       },
       {
         "name": "HIGHLY SATISFIED",
         "value": {{sentJson.Highly_Pos}},
-        "color": "#229954"
+        "color": "#B1E7B2"
       },
 
     ];
