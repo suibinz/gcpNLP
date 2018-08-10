@@ -6,7 +6,7 @@
   <title>Simple Bar chart</title>
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
   <style>
     .centered {
@@ -24,7 +24,7 @@
     }
 
     body {
-      margin: 0;
+      margin-bottom: 4em;
       padding: 0;
       font-family: 'Asap', sans-serif;
     }
@@ -46,60 +46,79 @@
     .label {
       font-size: 13px;
     }
+
+    .container {
+      margin-bottom: 25px;
+      margin-left: 15px
+    }
   </style>
 
 </head>
 
-<body onload="addText()">
+<body onload="addText()" class="">
+
   <div style="width: 100%; height: 4em; background-color: #487fc0; position: relative;">
     <img class="header-centered" src="./akme dummy logo white.png" />
   </div>
-  <div id="graphic" style="float: left;"></div>
 
-  <div>
-    <img id="img" src="./icons/contended.png" style="margin-left: 16em; margin-top: 3em ">
+  <div class="container">
+    <h5 style="margin-top:1.2em">Customer Happiness is the cornerstone of our business and life blood of our company.</h5>
+    <div id="graphic" style="float: left"></div>
+    <div>
+      <img id="img" src="./icons/contended.png" style="margin-left: 16em; margin-top: 3em ">
+    </div>
+    <br/>
+    <br/>
+    <div style="border: 2px solid black; float: left; margin-left: 3em">
+      <button id="button" class="btn -btn-default">Generate latest sentiment</button>
+    </div>
+    <div style="margin-left: 52em;">
+      <h2 id="msg">Overall Customer Satisfaction</h2>
+    </div>
+    <br/>
+    <br/>
+    <h6 style="margin-left: 3em;">
+      <b> -Feedback from our top 3 customers </b>
+    </h6>
+    <br/>
+    <div style="width:100%;">
+      <div style="float: left;">
+        <div style="margin-left: 3em;margin-bottom:0"> Satisfied Customer!</div>
+        <div style="margin-left: 3em; width: 20em;height:7em; background-color: #D9f8EE; position: relative">
+          <div id="first" class="centered"> {{ sentJson.Hi_sent}}</div>
+        </div>
+      </div>
+
+      <div style="float: left;">
+        <div style="margin-bottom:0;margin-left: 4em"> Neutral Customer!</div>
+        <div style="margin-left: 4em;margin-right:2em; width: 20em;height:7em; background-color: #FEFBD1; float: left; position: relative;">
+          <div id="second" class="centered"> {{sentJson.OK_sent}} </div>
+        </div>
+      </div>
+
+      <div style="float: left;">
+        <div style="margin-bottom:0"> Dissatisfied Customer!</div>
+        <div style=" width: 20em;height:7em; background-color: #FFE6DC;float: left;position: relative">
+          <div id="third" class="centered"> {{sentJson.Poor_sent}} </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <br/>
   </div>
-  <br/>
-  <br/>
-  <div style="border: 2px solid black; float: left; margin-left: 3em">
-    <button id="button" class="btn -btn-default">How are customers feeling about our products</button>
-  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    // call runButton.php on click
 
-  <div style="margin-left: 52em;">
-    <h2 id="msg">Overall Customer Satisfaction</h2>
-  </div>
-
-  <br/>
-  <br/>
-  <br/>
-
-  <div style="margin-left: 3em;float: left; position: relative;">
-	<img src="./icons/Combined Shape Copy.png">
-    <div id="first" class="centered"> {{ sentJson.Hi_sent}}</div>
-  </div>
-
-  <div style="margin-left: 4em;margin-right: 4em; float: left; position: relative;">
-	<img src="./icons/Combined Shape.png">
-    <div id="second" class="centered"> {{sentJson.OK_sent}} </div>
-  </div>
-
-  <div style="margin-left: 3em; float: left;position: relative">
-	<img src="./icons/Combined Shape Copy 3.png">
-    <div id="third" class="centered"> {{sentJson.Poor_sent}} </div>
-
-      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-      // call runButton.php on click
-
-      $('#button').click(function () {
-        $.ajax({
-          type: "GET",
-          url: "../runButton.php",
-        }).done(function (msg) {
-          console.log('script executed')
-        });
-
+    $('#button').click(function () {
+      $.ajax({
+        type: "GET",
+        url: "../runButton.php",
+      }).done(function (msg) {
+        console.log('script executed')
       });
+
+    });
 
 
 
@@ -115,48 +134,48 @@
     // 0 - content, 1 - satisfied, -1 - dissatisfied
     var value = 0.6
     switch (true) {
-      case ( value <= 0.6 && value >= -0.6 ):
+      case (value <= 0.6 && value >= -0.6):
         document.getElementById('img').src = "./icons/okicon.png"
-        document.getElementById('msg').innerHTML = 'Customer Satisfaction Level: OK'
+        document.getElementById('msg').innerHTML = 'Feeling Positive!'
         break;
-      case ( value > 0.6 ):
+      case (value > 0.6):
         document.getElementById('img').src = "./icons/sunnyicon.png"
-        document.getElementById('msg').innerHTML = 'Customer Satisfaction Level: Good'
+        document.getElementById('msg').innerHTML = 'Feeling Neutral!'
         break;
-      case ( value < -0.6 ):
+      case (value < -0.6):
         document.getElementById('img').src = "./icons/rainyicon.png"
-        document.getElementById('msg').innerHTML = 'Cusomer Satisfaction Level: Poor'
+        document.getElementById('msg').innerHTML = 'Feeling Poor!'
         break;
       default:
         document.getElementById('img').src = "./icons/okicon.png"
-        document.getElementById('msg').innerHTML = 'Customer Satisfaction Level: OK'
+        document.getElementById('msg').innerHTML = 'Feeling Positive!'
     }
 
 
     var data = [
       {
         "name": "VERY DISSATISFIED",
-        "value": {{sentJson.Highly_Neg}},
-        "color": "#34495E"
+        "value": 12,
+        "color": "#DE6D53"
       },
       {
         "name": "SOMEWHAT DISSATISFIED",
-        "value": {{sentJson.Moderately_Neg}},
-        "color": "#839192"
+        "value": 32,
+        "color": "#FAA35D"
       },
       {
         "name": "NEUTRAL",
-        "value": {{sentJson.Neutral}},
-        "color": "#F9E79F"
+        "value": 3,
+        "color": "#EECB55"
       }, {
         "name": "SOMEWHAT SATISFIED",
-        "value": {{sentJson.Moderately_Pos}},
-        "color": "#D4AC0D"
+        "value": 3,
+        "color": "#B6DB43"
       },
       {
         "name": "HIGHLY SATISFIED",
-        "value": {{sentJson.Highly_Pos}},
-        "color": "#229954"
+        "value": 54,
+        "color": "#6EDAD7"
       },
 
     ];
@@ -217,7 +236,7 @@
       .attr("class", "bar")
       .attr("y", function (d) {
         return y(d.name);
-      })
+      }) 
       .attr("fill", function (d) {
         return d.color
       })
