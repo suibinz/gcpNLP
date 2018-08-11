@@ -78,7 +78,7 @@
     <br/>
     <br/>
     <h6 style="margin-left: 3em;">
-      <b> -Feedback from our top 3 customers </b>
+      <b> - Sampled Customer Feedbacks </b>
     </h6>
     <br/>
     <div style="width:100%;">
@@ -116,6 +116,7 @@
         url: "../runButton.php",
       }).done(function (msg) {
         console.log('script executed')
+        window.location.reload()
       });
 
     });
@@ -132,49 +133,49 @@
     // for setting up emoji icons & changing corresponding text
     // change the value 0,1,-1
     // 0 - content, 1 - satisfied, -1 - dissatisfied
-    var value = 0.6
+    var value = {{ sentJson.OA_sent }}
     switch (true) {
       case (value <= 0.6 && value >= -0.6):
         document.getElementById('img').src = "./icons/okicon.png"
-        document.getElementById('msg').innerHTML = 'Feeling Positive!'
+        document.getElementById('msg').innerHTML = 'Customers Feeling Mixed'
         break;
       case (value > 0.6):
         document.getElementById('img').src = "./icons/sunnyicon.png"
-        document.getElementById('msg').innerHTML = 'Feeling Neutral!'
+        document.getElementById('msg').innerHTML = 'Customers Feeling Good!'
         break;
       case (value < -0.6):
         document.getElementById('img').src = "./icons/rainyicon.png"
-        document.getElementById('msg').innerHTML = 'Feeling Poor!'
+        document.getElementById('msg').innerHTML = 'Customers Feeling Poor!'
         break;
       default:
         document.getElementById('img').src = "./icons/okicon.png"
-        document.getElementById('msg').innerHTML = 'Feeling Positive!'
+        document.getElementById('msg').innerHTML = 'Customers Feeling Mixed.'
     }
 
 
     var data = [
       {
         "name": "VERY DISSATISFIED",
-        "value": 12,
+        "value": {{sentJson.Highly_Neg}},
         "color": "#DE6D53"
       },
       {
         "name": "SOMEWHAT DISSATISFIED",
-        "value": 32,
+        "value": {{sentJson.Moderately_Neg}},
         "color": "#FAA35D"
       },
       {
         "name": "NEUTRAL",
-        "value": 3,
+        "value": {{sentJson.Neutral}},
         "color": "#EECB55"
       }, {
         "name": "SOMEWHAT SATISFIED",
-        "value": 3,
+        "value": {{sentJson.Moderately_Pos}},
         "color": "#B6DB43"
       },
       {
         "name": "HIGHLY SATISFIED",
-        "value": 54,
+        "value": {{sentJson.Highly_Pos}},
         "color": "#6EDAD7"
       },
 
