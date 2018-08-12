@@ -70,8 +70,9 @@
     <br/>
     <br/>
     <div style="border: 2px solid black; float: left; margin-left: 3em">
-      <button id="button" class="btn -btn-default">Generate latest sentiment</button>
+      <button id="button" class="btn -btn-default">Click to Refresh Sentiment</button>
     </div>
+    <div id="loaderDiv" class="loader"></div>
     <div style="margin-left: 52em;">
       <h2 id="msg">Overall Customer Satisfaction</h2>
     </div>
@@ -109,14 +110,16 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>
     // call runButton.php on click
-
+    var $loading = $('#loaderDiv').hide();
     $('#button').click(function () {
+      $loading.show();
       $.ajax({
         type: "GET",
         url: "../runButton.php",
       }).done(function (msg) {
-        console.log('script executed')
-        window.location.reload()
+        $loading.hide();
+        console.log('script executed');
+        window.location.reload();
       });
 
     });
@@ -266,6 +269,29 @@
 
   </script>
 
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+     }
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
 </body>
 
 </html>
