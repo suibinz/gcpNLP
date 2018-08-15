@@ -14,7 +14,8 @@ client = language.LanguageServiceClient()
 DB_host = "172.16.174.41"
 DB_user = "admin"
 DB_passwd = "Onstak123"
-DB_db = "acmedb"
+#DB_db = "acmedb"
+DB_db = "akmedbhx"
 DB_comments = "comment_content"
 DB_table = "wp_comments"
 DB_query = "SELECT " + DB_comments + " FROM " + "wp_comments"
@@ -29,29 +30,34 @@ def get_comments_from_db():
     with open(comment_filename, "w") as f:
         while True:
             comment = results.fetch_row()
+            print(comment)
             if any(comment):
-                f.write(str(comment[0][0]).split("'")[1] + "\n")
+                f.write(str(comment[0][0]) + "\n")
             else:
                 break
 
 def get_sent_score(comment, sentimentDict):
-	try:
-		document = language.types.Document( content = comment, type = "PLAIN_TEXT")
-		response = client.analyze_sentiment( document = document, encoding_type = "UTF32")
-		sent_score = response.document_sentiment.score
-        
-		if sent_score <= -0.6:
-			sentimentDict["Highly_Neg"] += 1
-		elif sent_score <= -0.2 and sent_score > -0.6:
-			sentimentDict["Moderately_Neg"] += 1
-		elif sent_score <= 0.2 and sent_score > -0.2:
-			sentimentDict["Neutral"] += 1
-		elif sent_score <= 0.6 and sent_score > 0.2:
-			sentimentDict["Moderately_Pos"] += 1
-		else: 
-			sentimentDict["Highly_Pos"] += 1
-	except:
-		print("Language is not supported")
+    try:
+        document = language.types.Document( content = comment, type = "PLAIN_TEXT")
+        response = client.analyze_sentiment( document = document, encoding_type = "UTF32")
+        sent_score = response.document_sentiment.score
+        print("NLP reported scorte: " + str(sent_score))
+
+        if sent_score <= -0.6:
+            sentimentDict["Highly_Neg"] += 1
+            sentimentDict["Poor_sent"] = comment
+        elif sent_score <= -0.2 and sent_score > -0.6:
+            sentimentDict["Moderately_Neg"] += 1
+        elif sent_score <= 0.2 and sent_score > -0.2:
+            sentimentDict["Neutral"] += 1
+            sentimentDict["OK_sent"] = comment
+        elif sent_score <= 0.6 and sent_score > 0.2:
+            sentimentDict["Moderately_Pos"] += 1
+        else: 
+            sentimentDict["Highly_Pos"] += 1
+            sentimentDict["Hi_sent"] = comment
+    except:
+            print("Language is not supported")
 
 def write_score():
     sentimentDict = collections.OrderedDict(
@@ -59,7 +65,10 @@ def write_score():
                 "Moderately_Neg": 0,
                 "Neutral": 0,
                 "Moderately_Pos": 0,
-                "Highly_Pos": 0
+                "Highly_Pos": 0,
+				"Poor_sent": '',
+				"OK_sent": '',
+				"Hi_sent": ''
         })
     comments = []
 
@@ -75,3 +84,6 @@ def write_score():
 def runSentiment():
     get_comments_from_db()
     write_score()
+
+if __name__ == '__main__':
+    runSentiment()

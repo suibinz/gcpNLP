@@ -1,61 +1,297 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-    <button type="submit" onclick="ajaxcall()">Get Sentiment</button>
-        
-    <script type="text/javascript">
-        function ajaxcall(){
-            $.ajax({
-               method:'get',
-               url: "runButton.php"
-              });
-            window.location.reload();
-        
-       }
-    </script>
 
-    <script type="text/javascript">
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart', 'bar']});
+<head>
+  <meta charset='utf-8' />
+  <title>Simple Bar chart</title>
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
+  <style>
+    .centered {
+      position: absolute;
+      top: 27%;
+      left: 36%;
+      transform: translate(-50%, -50%);
+    }
 
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
+    .header-centered {
+      position: absolute;
+      top: 2em;
+      left: 10em;
+      transform: translate(-50%, -50%);
+    }
 
-      function drawChart() {
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Sentiment');
-        data.addColumn('number', 'Comments');
-        data.addRows([
-          ['Highly Neg', {{Highly_Neg}}],
-          ['Moderately Neg', {{Moderately_Neg}}],
-          ['Neutral', {{Neutral}}],
-          ['Moderately Pos', {{Moderately_Pos}}],
-          ['Highly Pos', {{Highly_Pos}}],
-        ]);
+    body {
+      margin-bottom: 4em;
+      padding: 0;
+      font-family: 'Asap', sans-serif;
+    }
 
-        // Set chart options
-        var options = {'title':'User Sentiment on Devita Products',
-                       'width':800,
-                       'height':300,
-                       'is3D':true};
+    .bar {
+      margin-top: 44px;
+    }
 
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-  </head>
+    .axis {
+      font-size: 13px;
+    }
 
-  <body>
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-  </body>
+    .axis path,
+    .axis line {
+      fill: none;
+      display: none;
+    }
+
+    .label {
+      font-size: 13px;
+    }
+
+    .container {
+      margin-bottom: 25px;
+      margin-left: 15px
+    }
+  </style>
+
+</head>
+
+<body onload="addText()" class="">
+
+  <div style="width: 100%; height: 4em; background-color: #487fc0; position: relative;">
+    <img class="header-centered" src="./akme dummy logo white.png" />
+  </div>
+
+  <div class="container">
+    <h5 style="margin-top:1.2em">Customer Happiness is the cornerstone of our business and life blood of our company.</h5>
+    <div id="graphic" style="float: left"></div>
+    <div>
+      <img id="img" src="./icons/contended.png" style="margin-left: 16em; margin-top: 3em ">
+    </div>
+    <br/>
+    <br/>
+    <div style="border: 2px solid black; float: left; margin-left: 3em">
+      <button id="button" class="btn -btn-default">Click to Refresh Sentiment</button>
+    </div>
+    <div id="loaderDiv" class="loader"></div>
+    <div style="margin-left: 52em;">
+      <h2 id="msg">Overall Customer Satisfaction</h2>
+    </div>
+    <br/>
+    <br/>
+    <h6 style="margin-left: 3em;">
+      <b> - Sampled Customer Feedbacks </b>
+    </h6>
+    <br/>
+    <div style="width:100%;">
+      <div style="float: left;">
+        <div style="margin-left: 3em;margin-bottom:0"> Satisfied Customer!</div>
+        <div style="margin-left: 3em; width: 20em;height:7em; background-color: #D9f8EE; position: relative">
+          <div id="first" class="centered"> {{ sentJson.Hi_sent}}</div>
+        </div>
+      </div>
+
+      <div style="float: left;">
+        <div style="margin-bottom:0;margin-left: 4em"> Neutral Customer!</div>
+        <div style="margin-left: 4em;margin-right:2em; width: 20em;height:7em; background-color: #FEFBD1; float: left; position: relative;">
+          <div id="second" class="centered"> {{sentJson.OK_sent}} </div>
+        </div>
+      </div>
+
+      <div style="float: left;">
+        <div style="margin-bottom:0"> Dissatisfied Customer!</div>
+        <div style=" width: 20em;height:7em; background-color: #FFE6DC;float: left;position: relative">
+          <div id="third" class="centered"> {{sentJson.Poor_sent}} </div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <br/>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    // call runButton.php on click
+    var $loading = $('#loaderDiv').hide();
+    $('#button').click(function () {
+      $loading.show();
+      $.ajax({
+        type: "GET",
+        url: "../runButton.php",
+      }).done(function (msg) {
+        $loading.hide();
+        console.log('script executed');
+        window.location.reload();
+      });
+
+    });
+
+
+
+    // change string values for bottom boxes
+
+    function addText() {
+      //document.getElementById('first').innerHTML = 'good'
+      //document.getElementById('second').innerHTML = 'OK'
+      //document.getElementById('third').innerHTML = 'bad'
+    }
+    // for setting up emoji icons & changing corresponding text
+    // change the value 0,1,-1
+    // 0 - content, 1 - satisfied, -1 - dissatisfied
+    var value = {{ sentJson.OA_sent }}
+    switch (true) {
+      case (value <= 0.6 && value >= -0.6):
+        document.getElementById('img').src = "./icons/okicon.png"
+        document.getElementById('msg').innerHTML = 'Customers Feeling Mixed'
+        break;
+      case (value > 0.6):
+        document.getElementById('img').src = "./icons/sunnyicon.png"
+        document.getElementById('msg').innerHTML = 'Customers Feeling Good!'
+        break;
+      case (value < -0.6):
+        document.getElementById('img').src = "./icons/rainyicon.png"
+        document.getElementById('msg').innerHTML = 'Customers Feeling Poor!'
+        break;
+      default:
+        document.getElementById('img').src = "./icons/okicon.png"
+        document.getElementById('msg').innerHTML = 'Customers Feeling Mixed.'
+    }
+
+
+    var data = [
+      {
+        "name": "VERY DISSATISFIED",
+        "value": {{sentJson.Highly_Neg}},
+        "color": "#DE6D53"
+      },
+      {
+        "name": "SOMEWHAT DISSATISFIED",
+        "value": {{sentJson.Moderately_Neg}},
+        "color": "#FAA35D"
+      },
+      {
+        "name": "NEUTRAL",
+        "value": {{sentJson.Neutral}},
+        "color": "#EECB55"
+      }, {
+        "name": "SOMEWHAT SATISFIED",
+        "value": {{sentJson.Moderately_Pos}},
+        "color": "#B6DB43"
+      },
+      {
+        "name": "HIGHLY SATISFIED",
+        "value": {{sentJson.Highly_Pos}},
+        "color": "#6EDAD7"
+      },
+
+    ];
+
+    //sort bars based on value
+    // data = data.sort(function (a, b) {
+    //   return d3
+    //   return d3.ascending(a.value, b.value);
+    // })
+
+    //set up svg using margin conventions - we'll need plenty of room on the left for labels
+    var margin = {
+      top: 25,
+      right: 25,
+      bottom: 25,
+      left: 160
+    };
+
+    var width = 560 - margin.left - margin.right,
+      height = 250 - margin.top - margin.bottom;
+
+    var svg = d3.select("#graphic").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var x = d3.scale.linear()
+      .range([0, width])
+      .domain([0, d3.max(data, function (d) {
+        return d.value;
+      })]);
+
+    var y = d3.scale.ordinal()
+      .rangeRoundBands([height, 0], .1)
+      .domain(data.map(function (d) {
+        return d.name;
+      }));
+
+    //make y axis to show bar names
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      //no tick marks
+      .tickSize(0)
+      .orient("left");
+
+    var gy = svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+
+    var bars = svg.selectAll(".bar")
+      .data(data)
+      .enter()
+      .append("g")
+
+    //append rects
+    bars.append("rect")
+      .attr("class", "bar")
+      .attr("y", function (d) {
+        return y(d.name);
+      }) 
+      .attr("fill", function (d) {
+        return d.color
+      })
+
+
+      .attr("height", y.rangeBand())
+      .attr("x", 0)
+      .attr("width", function (d) {
+        return x(d.value);
+      });
+
+    //add a value label to the right of each bar
+    bars.append("text")
+      .attr("class", "label")
+      //y position of the label is halfway down the bar
+      .attr("y", function (d) {
+        return y(d.name) + y.rangeBand() / 2 + 4;
+      })
+      //x position is 3 pixels to the right of the bar
+      .attr("x", function (d) {
+        return x(d.value) + 3;
+      })
+      .text(function (d) {
+        return d.value;
+      });
+
+  </script>
+
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+     }
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+</body>
+
 </html>
